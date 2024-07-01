@@ -1,9 +1,9 @@
 import { createContext } from "react";
+import { IItem } from "../interfaces/IItem";
 
 export const INITIAL_STATE = {
-  themeName: "light",
-
-  
+  themeName: "dark",
+  items: [] as IItem[],
 };
 
 export type InitialStateType = typeof INITIAL_STATE;
@@ -11,4 +11,8 @@ export type InitialStateType = typeof INITIAL_STATE;
 export const AppContext = createContext({
   state: INITIAL_STATE,
   toggleTheme: () => {},
+  createNewItem: () => {},
+  deleteItem: (id: string) => {},
+  toggleIsEditing: (id: string) => {},
+  editItem: (payload: IItem) => {},
 });

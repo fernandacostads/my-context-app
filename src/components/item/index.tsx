@@ -1,44 +1,58 @@
 import React, { useState } from "react";
+import { useAppContext } from "../../context/hook";
+import { IItem } from "../../interfaces/IItem";
 import Button from "../button";
 import { PencilIcon } from "../icons/pencil";
 import { TrashIcon } from "../icons/trash";
 import ItemForm from "./form";
 import { Styles } from "./styles";
 
-interface IProps {
-    position: number;
+interface IProps extends IItem {
+  position: number;
 }
 
-const Item = ({ position }: IProps) => {
-    const [isEditing, setIsEditing] = useState(false);
+const Item = ({
+  position,
+  nickname,
+  whatsapp,
+  age,
+  id,
+  isEditing = false,
+}: IProps) => {
+  const { deleteItem, toggleIsEditing } = useAppContext();
 
-    const handleClickEdit = () => setIsEditing(true);
-    const handleSubmit = () => setIsEditing(false);
+  return (
+    <Styles.Container>
+      <strong>{position}</strong>
 
-    return (
-        <Styles.Container>
-            <strong>{position}</strong>
+      {isEditing ? (
+        <ItemForm
+          {...{
+            nickname,
+            whatsapp,
+            age,
+            id,
+            isEditing,
+          }}
+        />
+      ) : (
+        <>
+          <p>{nickname ?? <i>Insert name</i>}</p>
+          <p>{age ?? <i>Insert age</i>}</p>
+          <p>{whatsapp ?? <i>Insert phone</i>}</p>
 
-            {isEditing ? (
-                <ItemForm onSubmit={handleSubmit} />
-            ) : (
-                <>
-                    <p>Nickname</p>
-                    <p>22</p>
-                    <p>+55 21 91234-5678</p>
-
-                    <Styles.GroupButtons>
-                        <Button onClick={handleClickEdit}>
-                            <PencilIcon />
-                        </Button>
-                        <Button>
-                            <TrashIcon />
-                        </Button>
-                    </Styles.GroupButtons>
-                </>
-            )}
-        </Styles.Container>
-    );
+          <Styles.GroupButtons>
+            <Button onClick={() => toggleIsEditing(id)}>
+              <PencilIcon />
+            </Button>
+            <Button onClick={() => deleteItem(id)}>
+              <TrashIcon />
+            </Button>
+          </Styles.GroupButtons>
+        </>
+      )}
+    </Styles.Container>
+  );
 };
 
 export default Item;

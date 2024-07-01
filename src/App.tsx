@@ -3,12 +3,13 @@ import { ThemeProvider } from "styled-components";
 import Header from "./components/header";
 import ListItems from "./components/list-items";
 import { theme } from "./config/theme";
-import { Container, GlobalStyles } from "./styles/global";
 import { useAppContext } from "./context/hook";
+import { Container, GlobalStyles } from "./styles/global";
 
 const App = () => {
   const { state } = useAppContext();
-  console.log({ state: state });
+
+  console.log({ state });
 
   const currentTheme = (theme as any)[state.themeName];
 
